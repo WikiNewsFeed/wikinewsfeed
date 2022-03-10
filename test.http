@@ -1,0 +1,14 @@
+### API
+GET http://localhost:3000/api
+
+### Feed
+
+GET http://localhost:3000/feed.rss
+
+### API (Cached)
+
+GET http://localhost/api
+
+### Feed (Cached)
+
+GET http://localhost/feed.rss
