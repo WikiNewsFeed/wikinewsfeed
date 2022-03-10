@@ -15,7 +15,7 @@ jobs:
     - name: Build
       run: docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
     - name: Login
-      run: docker login -u $GITHUB_ACTOR -p ${{secrets.REGISTRY_TOKEN}} ghcr.io
+      run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} ghcr.io
     - name: Publish
       run: |
         docker push $CONTAINER_IMAGE
