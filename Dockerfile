@@ -1,11 +1,9 @@
 # Build go binary
 FROM golang:1.17-alpine AS build
 WORKDIR /build
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
 COPY . .
-RUN go build -o wikinewsfeed
+RUN go mod download
+RUN go build -o /wikinewsfeed
 
 # Build docs
 FROM node:lts-alpine AS docs
@@ -17,6 +15,6 @@ RUN npm run docs:build
 
 FROM alpine
 WORKDIR /app
-COPY --from=build /build .
+COPY --from=build /wikinewsfeed .
 COPY --from=docs /build .
 CMD [ "./wikinewsfeed" ]
