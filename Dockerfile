@@ -17,6 +17,6 @@ RUN npm run docs:build
 
 FROM alpine
 WORKDIR /app
-COPY --from=build /build/wikinewsfeed .
-COPY --from=docs /build/docs .
+COPY --from=build /build .
+COPY --from=docs /build .
 CMD [ "./wikinewsfeed" ]
