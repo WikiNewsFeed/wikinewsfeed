@@ -5,7 +5,7 @@ module.exports = {
   theme: '@vuepress/theme-default',
   templateBuild: path.join(__dirname, 'templates', 'index.build.html'),
   title: "WikiNewsFeed",
-  description: "Newsfeed based on Wikipedia's current events",
+  description: "News aggregator powered by Wikipedia",
   // configure default theme
   themeConfig: {
     repo: 'wikinewsfeed/wikinewsfeed',
@@ -16,32 +16,32 @@ module.exports = {
         text: 'Subscribe',
         children: [{
           text: 'Atom',
-          link: 'https://example.com/feed.atom',
+          link: 'https://wikinewsfeed.org/feed/atom',
         },
         {
           text: 'RSS',
-          link: 'https://example.com/feed.rss',
+          link: 'https://wikinewsfeed.org/feed/rss',
         },
         {
           text: 'JSON',
-          link: 'https://example.com/feed.json',
+          link: 'https://wikinewsfeed.org/feed/json',
         }],
       },
       {
         text: 'Reference',
-        children: ['/reference/api.md', '/reference/client.md', '/reference/parser.md'],
+        children: ['/reference/api.md', '/reference/server.md', '/reference/client.md', '/reference/parser.md'],
       },
       {
         text: 'Contribute',
         link: '/contribute',
       },
       {
-        text: 'About',
-        link: '/about',
-      },
-      {
         text: 'Donate',
         link: '/donate',
+      },
+      {
+        text: 'About',
+        link: '/about',
       },
     ],
   },

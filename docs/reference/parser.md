@@ -3,7 +3,7 @@
 ## Install
 
 ```sh:no-line-numbers
-go get -u github.com/wikinewsfeed/parser
+go get -u github.com/wikinewsfeed/parser/parser
 ```
 
 ## Example

@@ -9,10 +9,11 @@ import (
 
 func main() {
 	mux := mux.NewRouter()
-	mux.HandleFunc("/api", web.Api)
-	mux.HandleFunc("/feed.rss", web.Rss)
-	mux.HandleFunc("/feed.atom", web.Rss)
-	mux.HandleFunc("/feed.json", web.Rss)
+	mux.HandleFunc("/events", web.Api)
+	mux.HandleFunc("/feed/{feed}", web.Rss)
+	mux.HandleFunc("/feed", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/feed.html", http.StatusMovedPermanently)
+	})
 	mux.PathPrefix("/").Handler(http.FileServer(http.Dir("./docs/.vuepress/dist")))
 	http.ListenAndServe(":8080", mux)
 }

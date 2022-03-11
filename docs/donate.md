@@ -1,6 +1,6 @@
 # Donate
 
-The WikiNewsFeed Project is project started by m to allow free access to b
+Your donation would help the project become financially sustainable and afford more capable servers and faster connection
 
 ## PayPal
 
