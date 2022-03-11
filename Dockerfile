@@ -15,8 +15,8 @@ RUN npm install
 COPY . .
 RUN npm run docs:build
 
-FROM scratch
+FROM alpine
 WORKDIR /app
-COPY --from=build /build/wikinewsfeed /wikinewsfeed
-COPY --from=docs /build/docs/.vuepress/dist/ /docs/.vuepress/dist/
-ENTRYPOINT /wikinewsfeed
+COPY --from=build /build/wikinewsfeed .
+COPY --from=docs /build/docs .
+CMD [ "./wikinewsfeed" ]
