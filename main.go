@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/wikinewsfeed/web"
+	"github.com/wikinewsfeed/wikinewsfeed/web"
 )
 
 func main() {

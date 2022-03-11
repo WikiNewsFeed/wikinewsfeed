@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/wikinewsfeed/parser"
+	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
 func Api(res http.ResponseWriter, req *http.Request) {

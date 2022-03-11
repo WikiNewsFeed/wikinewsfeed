@@ -2,7 +2,7 @@
 home: true
 actions:
   - text: Subscribe
-    link: /feed.atom
+    link: https://wikinewsfeed.org/feed.atom
     type: primary
   # - text: Donate
   #   link: /donate/

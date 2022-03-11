@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/feeds"
-	"github.com/wikinewsfeed/parser"
+	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
 func Rss(res http.ResponseWriter, req *http.Request) {

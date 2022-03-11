@@ -23,10 +23,10 @@
   #main-title {
     font-size: 80px;
   }
-}
 
-.hero {
-  margin-top: 150px
+  .hero {
+    margin-top: 150px
+  }
 }
 
 .navbar .site-name {
@@ -36,6 +36,10 @@
 
 .action-button.primary {
   display: flex !important;
+}
+
+.action-button.primary span {
+  display: none
 }
 
 .action-button.primary::after {

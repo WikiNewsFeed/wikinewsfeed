@@ -1,4 +1,4 @@
-# Parser (Go) [![Go Reference](https://pkg.go.dev/badge/github.com/wikinewsfeed/parser.svg)](https://pkg.go.dev/github.com/wikinewsfeed/parser)
+# Parser (Go) [![Go Reference](https://pkg.go.dev/badge/github.com/wikinewsfeed/wikinewsfeed/parser.svg)](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/parser)
 
 ## Install
 
@@ -15,7 +15,7 @@ import (
     "net/http"
     "fmt"
 
-    "github.com/wikinewsfeed/parser"
+    "github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
 func main() {
