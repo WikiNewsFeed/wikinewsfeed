@@ -5,7 +5,7 @@ COPY go.mod .
 COPY go.sum .
 RUN go mod download
 COPY . .
-RUN go build -o /wikinewsfeed
+RUN go build -o wikinewsfeed
 
 # Build docs
 FROM node:lts-alpine AS docs
@@ -17,6 +17,6 @@ RUN npm run docs:build
 
 FROM scratch
 WORKDIR /app
-COPY --from=build /wikinewsfeed /wikinewsfeed
-COPY --from=docs /build/docs/.vuepress/dist/ docs/.vuepress/dist/
-ENTRYPOINT ./wikinewsfeed
+COPY --from=build /build/wikinewsfeed /wikinewsfeed
+COPY --from=docs /build/docs/.vuepress/dist/ /docs/.vuepress/dist/
+ENTRYPOINT /wikinewsfeed
