@@ -29,6 +29,7 @@ func Rss(res http.ResponseWriter, req *http.Request) {
 			Source:      &feeds.Link{Href: event.PrimarySource.Url},
 			Description: event.Text,
 			Content:     event.Html,
+			Created:     event.Date,
 		})
 	}
 
@@ -37,6 +38,6 @@ func Rss(res http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	res.Header().Add("Cache-Control", "max-age=1800")
+	res.Header().Add("Cache-Control", "public, max-age=1800")
 	res.Write([]byte(atom))
 }

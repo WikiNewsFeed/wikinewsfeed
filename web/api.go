@@ -13,6 +13,6 @@ func Api(res http.ResponseWriter, req *http.Request) {
 	parsed, _ := json.Marshal(events)
 
 	res.Header().Add("Content-Type", "application/json")
-	res.Header().Add("Cache-Control", "max-age=1800")
+	res.Header().Add("Cache-Control", "public, max-age=1800")
 	res.Write(parsed)
 }

@@ -3,14 +3,16 @@ package main
 import (
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/web"
 )
 
 func main() {
-	mux := http.NewServeMux()
+	mux := mux.NewRouter()
 	mux.HandleFunc("/api", web.Api)
 	mux.HandleFunc("/feed.rss", web.Rss)
 	mux.HandleFunc("/feed.atom", web.Rss)
 	mux.HandleFunc("/feed.json", web.Rss)
-	http.ListenAndServe(":3000", mux)
+	mux.PathPrefix("/").Handler(http.FileServer(http.Dir("./docs/.vuepress/dist")))
+	http.ListenAndServe(":8080", mux)
 }

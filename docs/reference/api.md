@@ -1,0 +1,7 @@
+# API
+
+## Endpoint
+
+## Methods
+
+## Entities

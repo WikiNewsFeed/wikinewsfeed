@@ -1,0 +1,45 @@
+:root {
+  --c-brand: #36c;
+  --c-brand-light: #447ff5;
+  --c-bg-navbar: #f6f6f6;
+  --c-bg-sidebar: #f6f6f6;
+  --c-text: #000;
+  --c-text-light: #000;
+  --c-text-lighter: #54595d;
+  --c-text-lightest: #54595d;
+  --c-border: #ccc;
+  --c-border-dark: #aaa;
+  --code-bg-color: #f8f9fa;
+  --code-hl-bg-color: #ccc;
+  --font-family-code: "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace
+}
+
+#main-title {
+  font-family: "Hoefler Text";
+  font-weight: normal;
+}
+
+@media (min-width: 419px) {
+  #main-title {
+    font-size: 80px;
+  }
+}
+
+.hero {
+  margin-top: 150px
+}
+
+.navbar .site-name {
+  font-family: "Hoefler Text";
+  font-weight: 500;
+}
+
+.action-button.primary {
+  display: flex !important;
+}
+
+.action-button.primary::after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-rss'%3E%3Cpath d='M4 11a9 9 0 0 1 9 9'%3E%3C/path%3E%3Cpath d='M4 4a16 16 0 0 1 16 16'%3E%3C/path%3E%3Ccircle cx='5' cy='19' r='1'%3E%3C/circle%3E%3C/svg%3E");
+  width: 18px;
+  margin-left: .8rem;
+}
