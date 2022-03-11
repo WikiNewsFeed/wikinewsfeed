@@ -9,7 +9,7 @@ RUN go build -o /wikinewsfeed
 
 # Build docs
 FROM node:lts-alpine AS docs
-WORKDIR /app
+WORKDIR /build
 COPY package*.json ./
 RUN npm install
 COPY . .
@@ -18,5 +18,5 @@ RUN npm run docs:build
 FROM scratch
 WORKDIR /app
 COPY --from=build /wikinewsfeed /wikinewsfeed
-COPY --from=docs /docs/.vuepress/dist /docs/.vuepress/dist
+COPY --from=docs /build/docs/.vuepress/dist/ /docs/.vuepress/dist/
 ENTRYPOINT ./wikinewsfeed
