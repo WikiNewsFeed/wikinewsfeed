@@ -36,7 +36,7 @@ type Event struct {
 	DateOriginal  string        `json:"date_original"`
 }
 
-func GetPrimaryTopic(topics []EventPage) EventPage {
+func getPrimaryTopic(topics []EventPage) EventPage {
 	if len(topics) > 0 {
 		return topics[0]
 	} else {
@@ -44,7 +44,7 @@ func GetPrimaryTopic(topics []EventPage) EventPage {
 	}
 }
 
-func GetPrimarySource(sources []EventSource) EventSource {
+func getPrimarySource(sources []EventSource) EventSource {
 	if len(sources) > 0 {
 		return sources[0]
 	} else {
@@ -120,9 +120,9 @@ func Parse(content io.Reader) ([]Event, error) {
 			Text:          textStripped,
 			TextOriginal:  text,
 			Topics:        topics,
-			PrimaryTopic:  GetPrimaryTopic(topics),
+			PrimaryTopic:  getPrimaryTopic(topics),
 			Sources:       sources,
-			PrimarySource: GetPrimarySource(sources),
+			PrimarySource: getPrimarySource(sources),
 			References:    references,
 			Date:          dateFormatted,
 			DateOriginal:  date,
