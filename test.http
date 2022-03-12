@@ -1,5 +1,5 @@
 ### API
-GET http://localhost:8080/api/events
+GET http://localhost:8080/api/events?page=2020_March_10
 
 ### Feed
 

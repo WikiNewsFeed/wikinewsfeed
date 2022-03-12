@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -15,7 +16,13 @@ type WikiResponse struct {
 }
 
 func Api(res http.ResponseWriter, req *http.Request) {
-	wiki, _ := http.Get("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=1800&page=Portal:Current_events&prop=text")
+	page := ""
+	if req.URL.Query().Has("page") {
+		page = "/" + req.URL.Query().Get("page")
+	}
+
+	url := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=1800&page=Portal:Current_events%s&prop=text", page)
+	wiki, _ := http.Get(url)
 
 	var content WikiResponse
 	json.NewDecoder(wiki.Body).Decode(&content)

@@ -55,7 +55,7 @@ func getPrimarySource(sources []EventSource) EventSource {
 func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 	doc, _ := goquery.NewDocumentFromReader(content)
 
-	var selector = ".vevent ul:not(.current-events-navbar) li:not(:has(ul))"
+	const selector = ".vevent ul:not(.current-events-navbar) li:not(:has(ul))"
 	var output = []Event{}
 
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
