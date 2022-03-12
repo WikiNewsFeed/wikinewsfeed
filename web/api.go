@@ -16,7 +16,7 @@ type WikiResponse struct {
 }
 
 func Api(res http.ResponseWriter, req *http.Request) {
-	page := ""
+	var page = ""
 	if req.URL.Query().Has("page") {
 		page = "/" + req.URL.Query().Get("page")
 	}

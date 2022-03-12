@@ -10,7 +10,7 @@ import (
 func main() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/api/events", web.Api)
-	mux.HandleFunc("/feed/{type}", web.Rss)
+	mux.HandleFunc("/feed/{type}", web.Feed)
 	mux.HandleFunc("/feed", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/feed.html", http.StatusMovedPermanently)
 	})

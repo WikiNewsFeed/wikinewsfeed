@@ -8,7 +8,7 @@ import (
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
-func Rss(res http.ResponseWriter, req *http.Request) {
+func Feed(res http.ResponseWriter, req *http.Request) {
 	wiki, _ := http.Get("https://en.wikipedia.org/wiki/Portal:Current_events")
 	events, _ := parser.Parse(wiki.Body, false)
 

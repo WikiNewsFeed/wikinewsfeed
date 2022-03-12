@@ -53,37 +53,50 @@ func getPrimarySource(sources []EventSource) EventSource {
 }
 
 func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
-	doc, _ := goquery.NewDocumentFromReader(content)
+	doc, err := goquery.NewDocumentFromReader(content)
+	if err != nil {
+		return nil, err
+	}
 
-	const selector = ".vevent ul:not(.current-events-navbar) li:not(:has(ul))"
-	var output = []Event{}
+	eventNodes := doc.Find(".vevent ul:not(.current-events-navbar) li:not(:has(ul))")
+	var events []Event
+	for _, eventNode := range eventNodes.Nodes {
+		event := goquery.NewDocumentFromNode(eventNode)
+		html, err := event.Html()
+		if err != nil {
+			return nil, err
+		}
+		text := event.Text()
 
-	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
-		html, _ := s.Html()
-		text := s.Text()
-
+		sourcesNodes := event.Find("a.external")
 		var sources []EventSource
-		s.Find("a.external").Each(func(i int, source *goquery.Selection) {
+		for _, sourceNode := range sourcesNodes.Nodes {
+			source := goquery.NewDocumentFromNode(sourceNode)
 			sourceName := source.Text()
 
-			// Escape source in parentheses
+			// Escape source in parentheses (if matches regex)
 			sourceNameRegex := regexp.MustCompile(`\((.*?)\)`).FindStringSubmatch(sourceName)
 			if len(sourceNameRegex) > 0 {
 				sourceName = sourceNameRegex[1]
 			}
 
 			sourceUrl, _ := source.Attr("href")
-			parsedUrl, _ := url.Parse(sourceUrl)
+			parsedUrl, err := url.Parse(sourceUrl)
+			if err != nil {
+				return nil, err
+			}
 
 			sources = append(sources, EventSource{
 				Name:   sourceName,
 				Url:    sourceUrl,
 				Domain: parsedUrl.Hostname(),
 			})
-		})
+		}
 
+		referencesNodes := event.Find("a:not(.external)")
 		var references []EventPage
-		s.Find("a:not(.external)").Each(func(i int, reference *goquery.Selection) {
+		for _, referenceNode := range referencesNodes.Nodes {
+			reference := goquery.NewDocumentFromNode(referenceNode)
 			referenceTitle := reference.Text()
 			referenceUri, _ := reference.Attr("href")
 
@@ -92,17 +105,23 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 				Uri:         referenceUri,
 				ExternalUrl: "https://en.wikipedia.org" + referenceUri,
 			})
-		})
+		}
 
 		// Strip sources and replace internal links with external
-		stripped := s.Find("a.external").Remove().End()
-		htmlStripped, _ := stripped.Html()
+		stripped := event.Find("a.external").Remove().End()
+		htmlStripped, err := stripped.Html()
+		if err != nil {
+			return nil, err
+		}
 		htmlStripped = regexp.MustCompile(`href="(.*?)"`).ReplaceAllString(htmlStripped, `href="https://en.wikipedia.org$1"`)
 		textStripped := stripped.Text()
 
 		var topics []EventPage
-		primaryTopic := s.Parent().Parent().Find("a")
-		primaryTopicTitle, _ := primaryTopic.Html()
+		primaryTopic := event.Parent().Parent().Find("a")
+		primaryTopicTitle, err := primaryTopic.Html()
+		if err != nil {
+			return nil, err
+		}
 		primaryTopicUri, _ := primaryTopic.Attr("href")
 
 		topics = append(topics, EventPage{
@@ -111,10 +130,13 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 			ExternalUrl: "https://en.wikipedia.org" + primaryTopicUri,
 		})
 
-		date, _ := s.Parents().Find(".bday.dtstart").Html()
-		dateFormatted, _ := time.Parse("2006-01-02", date)
+		date, _ := event.Parents().Find(".bday.dtstart").Html()
+		dateFormatted, err := time.Parse("2006-01-02", date)
+		if err != nil {
+			return nil, err
+		}
 
-		var event = Event{
+		var parsedEvent = Event{
 			Html:          htmlStripped,
 			Text:          textStripped,
 			Topics:        topics,
@@ -127,13 +149,13 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 
 		// Include original content?
 		if includeOriginal {
-			event.HtmlOriginal = html
-			event.TextOriginal = text
-			event.DateOriginal = date
+			parsedEvent.HtmlOriginal = html
+			parsedEvent.TextOriginal = text
+			parsedEvent.DateOriginal = date
 		}
 
-		output = append(output, event)
-	})
+		events = append(events, parsedEvent)
+	}
 
-	return output, nil
+	return events, nil
 }

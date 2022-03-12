@@ -11,7 +11,7 @@ GET https://wikinewsfeed.fly.dev/api/events
 
 ### WikiNewsFeed.org
 
-GET https://wikinewsfeed.org/api/events
+GET https://wikinewsfeed.org/api/events?page=2020_March_10
 
 ### WikiNewsFeed.org
 
