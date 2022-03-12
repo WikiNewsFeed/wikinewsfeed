@@ -37,7 +37,7 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 	var generated string
 	var feedError error
 
-	switch ftype := feedType; ftype {
+	switch feedType {
 	case "atom":
 		generated, feedError = feed.ToAtom()
 	case "rss":

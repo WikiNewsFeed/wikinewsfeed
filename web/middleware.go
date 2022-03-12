@@ -2,27 +2,15 @@ package web
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/wikinewsfeed/wikinewsfeed/client"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
-
-type WikiResponseError struct {
-	Code string
-	Info string
-}
-
-type WikiResponse struct {
-	Error WikiResponseError
-	Parse struct {
-		Text map[string]interface{}
-	}
-}
 
 func EventContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -32,33 +20,13 @@ func EventContext(next http.Handler) http.Handler {
 				page = "/" + r.URL.Query().Get("page")
 			}
 
-			apiUrl := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=1800&page=Portal:Current_events%s&prop=text", page)
-			apiResponse, err := http.Get(apiUrl)
+			wikiPage, err := client.GetEventsPage(page)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
 				return
 			}
 
-			var content WikiResponse
-			decodeError := json.NewDecoder(apiResponse.Body).Decode(&content)
-			if decodeError != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
-
-			// Check if Wikipedia API's response error isn't empty
-			var emptyError = WikiResponseError{}
-			if content.Error != emptyError {
-				if content.Error.Code == "missingtitle" {
-					http.Error(w, content.Error.Info, http.StatusNotFound)
-				} else {
-					http.Error(w, content.Error.Info, http.StatusBadRequest)
-				}
-
-				return
-			}
-
-			parsedContent := strings.NewReader(content.Parse.Text["*"].(string))
+			parsedContent := strings.NewReader(wikiPage.Parse.Text["*"].(string))
 			events, err := parser.Parse(parsedContent, false)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)

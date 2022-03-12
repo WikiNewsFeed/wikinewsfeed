@@ -2,6 +2,8 @@ module github.com/wikinewsfeed/wikinewsfeed
 
 replace github.com/wikinewsfeed/wikinewsfeed/parser => ./parser
 
+replace github.com/wikinewsfeed/wikinewsfeed/client => ./client
+
 go 1.16
 
 require (
