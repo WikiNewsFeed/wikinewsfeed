@@ -59,7 +59,7 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 	}
 
 	eventNodes := doc.Find(".vevent ul:not(.current-events-navbar) li:not(:has(ul))")
-	var events []Event
+	var events = []Event{}
 	for _, eventNode := range eventNodes.Nodes {
 		event := goquery.NewDocumentFromNode(eventNode)
 		html, err := event.Html()

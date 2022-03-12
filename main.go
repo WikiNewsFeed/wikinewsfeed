@@ -9,6 +9,8 @@ import (
 
 func main() {
 	mux := mux.NewRouter()
+	mux.Use(web.CacheHeaders)
+	mux.Use(web.EventContext)
 	mux.HandleFunc("/api/events", web.Api)
 	mux.HandleFunc("/feed/{type}", web.Feed)
 	mux.HandleFunc("/feed", func(w http.ResponseWriter, r *http.Request) {

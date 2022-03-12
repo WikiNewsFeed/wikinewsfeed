@@ -1,16 +1,14 @@
 package web
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gorilla/feeds"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
-func Feed(res http.ResponseWriter, req *http.Request) {
-	wiki, _ := http.Get("https://en.wikipedia.org/wiki/Portal:Current_events")
-	events, _ := parser.Parse(wiki.Body, false)
+func Feed(w http.ResponseWriter, r *http.Request) {
+	events := r.Context().Value("Events").([]parser.Event)
 
 	feed := &feeds.Feed{
 		Title: "WikiNewsFeed",
@@ -35,9 +33,9 @@ func Feed(res http.ResponseWriter, req *http.Request) {
 
 	atom, err := feed.ToAtom()
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	res.Header().Add("Cache-Control", "public, max-age=1800")
-	res.Write([]byte(atom))
+	w.Write([]byte(atom))
 }
