@@ -8,15 +8,18 @@ import (
 )
 
 func Feed(w http.ResponseWriter, r *http.Request) {
+	feedType := r.Context().Value("FeedType").(string)
 	events := r.Context().Value("Events").([]parser.Event)
-
 	feed := &feeds.Feed{
-		Title: "WikiNewsFeed",
-		Link:  &feeds.Link{Href: "http://localhost:8080/feed.json"},
+		Title:       "WikiNewsFeed - Feed",
+		Description: "News aggregator powered by Wikipedia",
+		// Link: &feeds.Link{
+		// 	Href: fmt.Sprintf("http://localhost:8080/feed/%s", feedType),
+		// },
+		Copyright: "Creative Commons Attribution-ShareAlike License 3.0",
 		Image: &feeds.Image{
-			Url:   "https://upload.wikimedia.org/wikipedia/commons/7/77/Wikipedia_svg_logo.svg",
-			Title: "Wikipedia Logo",
-			Link:  "https://upload.wikimedia.org/wikipedia/commons/7/77/Wikipedia_svg_logo.svg",
+			Url:   "https://i.imgur.com/5TMSNk0.png",
+			Title: "WikiNewsFeed Logo",
 		},
 	}
 
@@ -31,11 +34,22 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	atom, err := feed.ToAtom()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	var generated string
+	var feedError error
+
+	switch ftype := feedType; ftype {
+	case "atom":
+		generated, feedError = feed.ToAtom()
+	case "rss":
+		generated, feedError = feed.ToRss()
+	case "json":
+		generated, feedError = feed.ToJSON()
+	}
+
+	if feedError != nil {
+		http.Error(w, feedError.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Write([]byte(atom))
+	w.Write([]byte(generated))
 }

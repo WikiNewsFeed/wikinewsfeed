@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
@@ -66,9 +67,10 @@ func EventContext(next http.Handler) http.Handler {
 
 			eventsContext := context.WithValue(r.Context(), "Events", events)
 			next.ServeHTTP(w, r.WithContext(eventsContext))
-		} else {
-			next.ServeHTTP(w, r)
+			return
 		}
+
+		next.ServeHTTP(w, r)
 	})
 }
 
@@ -81,6 +83,24 @@ func CacheHeaders(next http.Handler) http.Handler {
 			}
 
 			w.Header().Add("Cache-Control", fmt.Sprintf("public, max-age=%s", maxAge))
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func FeedType(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/feed/") {
+			feedType := mux.Vars(r)["type"]
+			if feedType != "atom" && feedType != "rss" && feedType != "json" {
+				http.Error(w, "No such feed type", http.StatusNotFound)
+				return
+			}
+
+			feedContext := context.WithValue(r.Context(), "FeedType", feedType)
+			next.ServeHTTP(w, r.WithContext(feedContext))
+			return
 		}
 
 		next.ServeHTTP(w, r)

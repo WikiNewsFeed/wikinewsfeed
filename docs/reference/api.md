@@ -2,27 +2,17 @@
 
 ## Endpoints
 
-### Atom Feed
+### Feed
 
-`GET` [https://wikinewsfeed.org/feed/atom](https://wikinewsfeed.org/feed/atom)
+`GET` [https://wikinewsfeed.org/feed/{type}](https://wikinewsfeed.org/feed/{type})
 
-<!-- #### Response
+#### Request Params
 
-#### Example
+| Param | Type                        | Description |
+|-------|-----------------------------|-------------|
+| type  | Enum: "atom", "rss", "json" | Feed type   |
 
-```
-
-``` -->
-
-### RSS Feed
-
-`GET` [https://wikinewsfeed.org/feed/rss](https://wikinewsfeed.org/feed/rss)
-
-### JSON Feed
-
-`GET` [https://wikinewsfeed.org/feed/json](https://wikinewsfeed.org/feed/json)
-
-### Events Feed
+### Events
 
 `GET` [https://wikinewsfeed.org/api/events](https://wikinewsfeed.org/api/events)
 
