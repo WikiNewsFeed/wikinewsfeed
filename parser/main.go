@@ -23,9 +23,9 @@ type EventPage struct {
 
 type Event struct {
 	Html          string        `json:"html"`
-	HtmlOriginal  string        `json:"html_original"`
+	HtmlOriginal  string        `json:"html_original,omitempty"`
 	Text          string        `json:"text"`
-	TextOriginal  string        `json:"text_original"`
+	TextOriginal  string        `json:"text_original,omitempty"`
 	Category      string        `json:"category"`
 	Topics        []EventPage   `json:"topics"`
 	PrimaryTopic  EventPage     `json:"primary_topic"`
@@ -33,7 +33,7 @@ type Event struct {
 	PrimarySource EventSource   `json:"primary_source"`
 	References    []EventPage   `json:"references"`
 	Date          time.Time     `json:"date"`
-	DateOriginal  string        `json:"date_original"`
+	DateOriginal  string        `json:"date_original,omitempty"`
 }
 
 func getPrimaryTopic(topics []EventPage) EventPage {
@@ -52,7 +52,7 @@ func getPrimarySource(sources []EventSource) EventSource {
 	}
 }
 
-func Parse(content io.Reader) ([]Event, error) {
+func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 	doc, _ := goquery.NewDocumentFromReader(content)
 
 	var selector = ".vevent ul:not(.current-events-navbar) li:not(:has(ul))"
@@ -116,16 +116,20 @@ func Parse(content io.Reader) ([]Event, error) {
 
 		var event = Event{
 			Html:          htmlStripped,
-			HtmlOriginal:  html,
 			Text:          textStripped,
-			TextOriginal:  text,
 			Topics:        topics,
 			PrimaryTopic:  getPrimaryTopic(topics),
 			Sources:       sources,
 			PrimarySource: getPrimarySource(sources),
 			References:    references,
 			Date:          dateFormatted,
-			DateOriginal:  date,
+		}
+
+		// Include original content?
+		if includeOriginal {
+			event.HtmlOriginal = html
+			event.TextOriginal = text
+			event.DateOriginal = date
 		}
 
 		output = append(output, event)

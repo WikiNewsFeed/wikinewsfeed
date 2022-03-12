@@ -10,7 +10,7 @@ import (
 
 func Rss(res http.ResponseWriter, req *http.Request) {
 	wiki, _ := http.Get("https://en.wikipedia.org/wiki/Portal:Current_events")
-	events, _ := parser.Parse(wiki.Body)
+	events, _ := parser.Parse(wiki.Body, false)
 
 	feed := &feeds.Feed{
 		Title: "WikiNewsFeed",

@@ -21,7 +21,7 @@ func Api(res http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(wiki.Body).Decode(&content)
 
 	r := strings.NewReader(content.Parse.Text["*"].(string))
-	events, _ := parser.Parse(r)
+	events, _ := parser.Parse(r, false)
 	parsed, _ := json.Marshal(events)
 
 	res.Header().Add("Content-Type", "application/json")
