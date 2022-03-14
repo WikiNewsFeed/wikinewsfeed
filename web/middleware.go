@@ -20,6 +20,11 @@ func EventContext(next http.Handler) http.Handler {
 				page = "/" + r.URL.Query().Get("page")
 			}
 
+			var includeOriginal = false
+			if r.URL.Query().Has("includeOriginal") {
+				includeOriginal = true
+			}
+
 			wikiPage, err := client.GetEventsPage(page)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
@@ -27,7 +32,7 @@ func EventContext(next http.Handler) http.Handler {
 			}
 
 			parsedContent := strings.NewReader(wikiPage.Parse.Text["*"].(string))
-			events, err := parser.Parse(parsedContent, false)
+			events, err := parser.Parse(parsedContent, includeOriginal)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return

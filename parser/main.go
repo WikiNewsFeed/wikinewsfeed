@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"crypto/sha1"
+	"encoding/hex"
 	"io"
 	"net/url"
 	"regexp"
@@ -11,9 +13,9 @@ import (
 
 type Event struct {
 	Html          string        `json:"html"`
-	HtmlOriginal  string        `json:"html_original,omitempty"`
+	OriginalHtml  string        `json:"html_original,omitempty"`
 	Text          string        `json:"text"`
-	TextOriginal  string        `json:"text_original,omitempty"`
+	OriginalText  string        `json:"text_original,omitempty"`
 	Category      string        `json:"category"`
 	Topics        []EventPage   `json:"topics"`
 	PrimaryTopic  EventPage     `json:"primary_topic"`
@@ -21,7 +23,8 @@ type Event struct {
 	PrimarySource EventSource   `json:"primary_source"`
 	References    []EventPage   `json:"references"`
 	Date          time.Time     `json:"date"`
-	DateOriginal  string        `json:"date_original,omitempty"`
+	OriginalDate  string        `json:"date_original,omitempty"`
+	Checksum      string        `json:"checksum"`
 }
 
 type EventPage struct {
@@ -50,6 +53,12 @@ func getPrimarySource(sources []EventSource) EventSource {
 	} else {
 		return EventSource{}
 	}
+}
+
+func calculateChecksum(text string) string {
+	hash := sha1.New()
+	hash.Write([]byte(text))
+	return hex.EncodeToString(hash.Sum(nil))
 }
 
 func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
@@ -145,13 +154,14 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 			PrimarySource: getPrimarySource(sources),
 			References:    references,
 			Date:          dateFormatted,
+			Checksum:      calculateChecksum(textStripped),
 		}
 
 		// Include original content?
 		if includeOriginal {
-			parsedEvent.HtmlOriginal = html
-			parsedEvent.TextOriginal = text
-			parsedEvent.DateOriginal = date
+			parsedEvent.OriginalHtml = html
+			parsedEvent.OriginalText = text
+			parsedEvent.OriginalDate = date
 		}
 
 		events = append(events, parsedEvent)

@@ -13,26 +13,29 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 	feedType := r.Context().Value("FeedType").(string)
 	events := r.Context().Value("Events").([]parser.Event)
 	feed := &feeds.Feed{
-		Title:       "WikiNewsFeed - Feed",
+		Title:       "WikiNewsFeed",
 		Description: "News aggregator powered by Wikipedia",
 		Link: &feeds.Link{
 			Href: fmt.Sprintf("%s/feed/%s", envy.Get("WNF_URL", "http://localhost:8080"), feedType),
 		},
+		Author:    &feeds.Author{Name: "Wikipedia contributors"},
 		Copyright: "Creative Commons Attribution-ShareAlike License 3.0",
 		Image: &feeds.Image{
-			Url:   "https://i.imgur.com/5TMSNk0.png",
+			Url:   fmt.Sprintf("%s/favicon.ico", envy.Get("WNF_URL", "http://localhost:8080")),
 			Title: "WikiNewsFeed Logo",
 		},
 	}
 
 	for _, event := range events {
 		feed.Add(&feeds.Item{
+			Id:          event.Checksum,
 			Title:       event.PrimaryTopic.Title,
 			Link:        &feeds.Link{Href: event.PrimaryTopic.ExternalUrl},
 			Source:      &feeds.Link{Href: event.PrimarySource.Url},
 			Description: event.Text,
 			Content:     event.Html,
 			Created:     event.Date,
+			Author:      feed.Author,
 		})
 	}
 
@@ -46,6 +49,7 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 		generated, feedError = feed.ToRss()
 	case "json":
 		generated, feedError = feed.ToJSON()
+		w.Header().Add("Content-Type", "application/json")
 	}
 
 	if feedError != nil {

@@ -41,7 +41,7 @@ If your reader wasn't able to find the feed automatically, try one of the follow
 - `https://wikinewsfeed.org/feed/rss`
 - `https://wikinewsfeed.org/feed/json`
 
-### <span class="steps-circle donate">3</span> Support us
+### <span class="steps-circle donate">$</span> Support us
 
 Enjoying the news? Consider supporting the project by giving a donation:
 

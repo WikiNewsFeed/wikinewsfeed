@@ -13,7 +13,7 @@ module.exports = {
       'link',
       {
         rel: 'shortcut icon',
-        href: `/assets/favicon.ico`,
+        href: `/favicon.ico`,
       },
     ],
     [
