@@ -1,17 +1,70 @@
 const path = require('path');
 
 module.exports = {
-  // use default theme
   theme: '@vuepress/theme-default',
   templateBuild: path.join(__dirname, 'templates', 'index.build.html'),
   title: "WikiNewsFeed",
   description: "News aggregator powered by Wikipedia",
-  // configure default theme
+  head: [
+    ['meta', { name: 'application-name', content: 'WikiNewsFeed' }],
+    ['meta', { name: 'apple-mobile-web-app-title', content: 'WikiNewsFeed' }],
+    ['meta', { name: 'theme-color', content: '#f6f6f6' }],
+    [
+      'link',
+      {
+        rel: 'shortcut icon',
+        href: `/assets/favicon.ico`,
+      },
+    ],
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '72x72',
+        href: `/assets/favicon-72x72.png`,
+      },
+    ],
+    [
+      'link',
+      {
+        rel: 'apple-touch-icon',
+        type: 'image/png',
+        href: `/assets/apple-touch-icon.png`,
+      },
+    ],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/atom+xml',
+        href: 'https://wikinewsfeed.org/feed/atom',
+        title: 'WikiNewsFeed'
+      }
+    ],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        href: 'https://wikinewsfeed.org/feed/rss',
+        title: 'WikiNewsFeed'
+      }
+    ],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/feed+json',
+        href: 'https://wikinewsfeed.org/feed/json',
+        title: 'WikiNewsFeed'
+      }
+    ]
+  ],
   themeConfig: {
     repo: 'wikinewsfeed/wikinewsfeed',
     darkMode: false,
     navbar: [
-      // NavbarItem
       {
         text: 'Subscribe',
         children: [{
@@ -25,7 +78,7 @@ module.exports = {
         {
           text: 'JSON',
           link: 'https://wikinewsfeed.org/feed/json',
-        }],
+        }]
       },
       {
         text: 'Reference',
@@ -42,8 +95,8 @@ module.exports = {
       {
         text: 'About',
         link: '/about',
-      },
-    ],
+      }
+    ]
   },
   plugins: [
     [
@@ -52,5 +105,5 @@ module.exports = {
         theme: 'github-light',
       }
     ]
-  ],
+  ]
 }
