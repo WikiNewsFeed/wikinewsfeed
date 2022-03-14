@@ -9,18 +9,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type EventSource struct {
-	Name   string `json:"name"`
-	Url    string `json:"url"`
-	Domain string `json:"domain"`
-}
-
-type EventPage struct {
-	Title       string `json:"title"`
-	Uri         string `json:"uri"`
-	ExternalUrl string `json:"external_url"`
-}
-
 type Event struct {
 	Html          string        `json:"html"`
 	HtmlOriginal  string        `json:"html_original,omitempty"`
@@ -34,6 +22,18 @@ type Event struct {
 	References    []EventPage   `json:"references"`
 	Date          time.Time     `json:"date"`
 	DateOriginal  string        `json:"date_original,omitempty"`
+}
+
+type EventPage struct {
+	Title       string `json:"title"`
+	Uri         string `json:"uri"`
+	ExternalUrl string `json:"external_url"`
+}
+
+type EventSource struct {
+	Name   string `json:"name"`
+	Url    string `json:"url"`
+	Domain string `json:"domain"`
 }
 
 func getPrimaryTopic(topics []EventPage) EventPage {

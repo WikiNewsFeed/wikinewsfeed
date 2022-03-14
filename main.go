@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/gobuffalo/envy"
 	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/web"
 )
@@ -19,5 +21,5 @@ func main() {
 		http.Redirect(w, r, "/feed.html", http.StatusMovedPermanently)
 	})
 	mux.PathPrefix("/").Handler(http.FileServer(http.Dir("./docs/.vuepress/dist")))
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(fmt.Sprintf(":%s", envy.Get("PORT", "8080")), mux)
 }

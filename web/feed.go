@@ -1,8 +1,10 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/gobuffalo/envy"
 	"github.com/gorilla/feeds"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
@@ -13,9 +15,9 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 	feed := &feeds.Feed{
 		Title:       "WikiNewsFeed - Feed",
 		Description: "News aggregator powered by Wikipedia",
-		// Link: &feeds.Link{
-		// 	Href: fmt.Sprintf("http://localhost:8080/feed/%s", feedType),
-		// },
+		Link: &feeds.Link{
+			Href: fmt.Sprintf("%s/feed/%s", envy.Get("WNF_URL", "http://localhost:8080"), feedType),
+		},
 		Copyright: "Creative Commons Attribution-ShareAlike License 3.0",
 		Image: &feeds.Image{
 			Url:   "https://i.imgur.com/5TMSNk0.png",

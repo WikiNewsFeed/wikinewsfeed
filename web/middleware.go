@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 
+	"github.com/gobuffalo/envy"
 	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/client"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
@@ -45,12 +45,7 @@ func EventContext(next http.Handler) http.Handler {
 func CacheHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/api/") || strings.HasPrefix(r.URL.Path, "/feed/") {
-			maxAge, exists := os.LookupEnv("MAXAGE")
-			if !exists {
-				maxAge = "1800"
-			}
-
-			w.Header().Add("Cache-Control", fmt.Sprintf("public, max-age=%s", maxAge))
+			w.Header().Add("Cache-Control", fmt.Sprintf("public, max-age=%s", envy.Get("WNF_MAXAGE", "1800")))
 		}
 
 		next.ServeHTTP(w, r)

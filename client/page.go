@@ -7,16 +7,16 @@ import (
 	"net/http"
 )
 
-type WikiResponseError struct {
-	Code string
-	Info string
-}
-
 type WikiResponse struct {
 	Error WikiResponseError
 	Parse struct {
 		Text map[string]interface{}
 	}
+}
+
+type WikiResponseError struct {
+	Code string
+	Info string
 }
 
 func GetEventsPage(title string) (*WikiResponse, error) {

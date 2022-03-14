@@ -3,6 +3,9 @@ app = "wikinewsfeed"
 [build]
   image = "ghcr.io/wikinewsfeed/wikinewsfeed:latest"
 
+[env]
+  WNF_URL = "https://wikinewsfeed.org"
+
 [[services]]
   internal_port = 8080
   protocol = "tcp"
