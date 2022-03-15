@@ -2,13 +2,13 @@ package web
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
+	"github.com/wikinewsfeed/wikinewsfeed/stats"
 )
 
-func Api(w http.ResponseWriter, r *http.Request) {
+func Events(w http.ResponseWriter, r *http.Request) {
 	events := r.Context().Value("Events").([]parser.Event)
 	parsed, err := json.Marshal(events)
 	if err != nil {
@@ -16,7 +16,22 @@ func Api(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(events[0])
+	w.Header().Add("Content-Type", "application/json")
+	w.Write(parsed)
+}
+
+func Stats(w http.ResponseWriter, r *http.Request) {
+	generatedStats, err := stats.GetStats()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	parsed, err := json.Marshal(generatedStats)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(parsed)

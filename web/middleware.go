@@ -10,11 +10,12 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/client"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
+	"github.com/wikinewsfeed/wikinewsfeed/stats"
 )
 
 func EventContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/api/events") || strings.HasPrefix(r.URL.Path, "/feed/") {
+		if r.URL.Path == "/api/stats" || strings.HasPrefix(r.URL.Path, "/feed/") {
 			var page = ""
 			if r.URL.Query().Has("page") {
 				page = "/" + r.URL.Query().Get("page")
@@ -69,6 +70,18 @@ func FeedType(next http.Handler) http.Handler {
 			feedContext := context.WithValue(r.Context(), "FeedType", feedType)
 			next.ServeHTTP(w, r.WithContext(feedContext))
 			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func FeedAnalytics(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/feed/") {
+			subscriber := r.URL.Query().Get("subscribe")
+			go stats.SubscribeIfNotAlready(subscriber)
+			// go stats.IncrementHits(subscriber)
 		}
 
 		next.ServeHTTP(w, r)
