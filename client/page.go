@@ -19,8 +19,8 @@ type WikiResponseError struct {
 	Info string
 }
 
-func GetEventsPage(title string) (*WikiResponse, error) {
-	apiUrl := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=1800&page=Portal:Current_events%s&prop=text", title)
+func GetEventsPage(title string, smaxage string) (*WikiResponse, error) {
+	apiUrl := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=%s&page=Portal:Current_events%s&prop=text", smaxage, title)
 	apiResponse, err := http.Get(apiUrl)
 	if err != nil {
 		return nil, err

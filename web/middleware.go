@@ -25,7 +25,7 @@ func EventContext(next http.Handler) http.Handler {
 				includeOriginal = true
 			}
 
-			wikiPage, err := client.GetEventsPage(page)
+			wikiPage, err := client.GetEventsPage(page, envy.Get("WNF_MAXAGE", "1800"))
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
 				return

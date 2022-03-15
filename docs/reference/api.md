@@ -6,17 +6,71 @@
 
 `GET` [https://wikinewsfeed.org/feed/{type}](https://wikinewsfeed.org/feed/{type})
 
-#### Request Params
+#### Path Params
 
-| Param | Type                        | Description |
-|-------|-----------------------------|-------------|
-| type  | Enum: "atom", "rss", "json" | Feed type   |
+| Param | Type                  | Description |
+|-------|-----------------------|-------------|
+| type  | "atom", "rss", "json" | Feed type   |
+
+#### Query Params
+
+| Param           | Type    | Description                         |
+|-----------------|---------|-------------------------------------|
+| page            | String  | Wikipedia Page                      |
+| includeOriginal | Boolean | Include unmodified text, body, date |
+
+#### Response
+
+The endpoints responds with XML or JSON with correct headers for each feed type
 
 ### Events
 
 `GET` [https://wikinewsfeed.org/api/events](https://wikinewsfeed.org/api/events)
 
-#### Example
+#### Query Params
+
+| Param           | Type    | Description                         |
+|-----------------|---------|-------------------------------------|
+| page            | String  | Wikipedia Page                      |
+| includeOriginal | Boolean | Include unmodified text, body, date |
+
+#### Response
+
+Array of [Event](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/parser#Event)
+
+#### Example Request
+
+<CodeGroup>
+  <CodeGroupItem title="cURL" active>
+
+```bash:no-line-numbers
+curl https://wikinewsfeed.org/api/events
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="JavaScript">
+
+```js:no-line-numbers
+fetch('https://wikinewsfeed.org/api/events')
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="NodeJS">
+
+```js:no-line-numbers
+const fetch = require('node-fetch')
+fetch('https://wikinewsfeed.org/api/events')
+```
+  </CodeGroupItem>
+  <CodeGroupItem title="Python">
+
+```python:no-line-numbers
+import requests
+response = requests.get('https://wikinewsfeed.org/api/events')
+```
+
+  </CodeGroupItem>
+</CodeGroup>
 
 ```json
   [{
@@ -68,14 +122,12 @@
   }]
 ```
 
-## Entities
-
 ## Limits
 
 ### Connections
 
 20 concurrent connections are allowed simultaneously
 
-### Cache
+## Cache
 
 TTL is set to 30 minutes

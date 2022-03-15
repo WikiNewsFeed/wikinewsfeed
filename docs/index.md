@@ -39,7 +39,7 @@ After downloading the reader, refresh the page and click on the "Subscribe" butt
 
 If your reader wasn't able to find the feed automatically, try one of the following URLs:
 
-- `https://wikinewsfeed.org/feed/atom?subscribe={{nanoid}}`
+- `https://wikinewsfeed.org/feed/atom`
 - `https://wikinewsfeed.org/feed/rss`
 - `https://wikinewsfeed.org/feed/json`
 
