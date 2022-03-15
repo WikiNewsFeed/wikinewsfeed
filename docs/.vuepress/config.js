@@ -100,6 +100,7 @@ module.exports = {
       {
         components: {
           SubscribeLinks: path.resolve(__dirname, './components/SubscribeLinks.vue'),
+          FeedStats: path.resolve(__dirname, './components/FeedStats.vue'),
         }
       }
     ]

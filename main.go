@@ -12,6 +12,7 @@ import (
 func main() {
 	mux := mux.NewRouter()
 	mux.Use(web.CacheHeaders)
+	mux.Use(web.CorsHeaders)
 	mux.Use(web.FeedType)
 	mux.Use(web.FeedAnalytics)
 	mux.Use(web.EventContext)

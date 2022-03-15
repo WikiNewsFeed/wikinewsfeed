@@ -18,6 +18,7 @@ Configuration is applied using Environment variables
 | WNF_URL    | String, URL | http://localhost:8080 | URL to be displayed in readers               |
 | WNF_MAXAGE | String      | 1800                  | Cache-Control age (only useful behind a CDN) |
 | WNF_DB     | Path        | stats.db              | Path where database file should be saved     |
+| WNF_CORS   | String      | *                     | CORS Header                                  |
 
 ## Recommendations
 

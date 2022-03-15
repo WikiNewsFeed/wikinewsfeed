@@ -58,6 +58,17 @@ func CacheHeaders(next http.Handler) http.Handler {
 	})
 }
 
+func CorsHeaders(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/api/") {
+			w.Header().Set("Access-Control-Allow-Origin", envy.Get("WNF_CORS", "*"))
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func FeedType(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/feed/") {

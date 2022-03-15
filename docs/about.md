@@ -1,1 +1,5 @@
 # About
+
+<ClientOnly>
+    <FeedStats />
+</ClientOnly>
