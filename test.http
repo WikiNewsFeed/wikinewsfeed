@@ -3,7 +3,7 @@ GET http://localhost:8080/api/events?page=2020_March_10
 
 ### Feed
 
-GET http://localhost:8080/feed/rss?subscribe=123test
+GET http://localhost:8080/feed/json?subscribe=432g
 
 ### Stats
 
@@ -11,7 +11,7 @@ GET http://localhost:8080/api/stats
 
 ### Fly.io
 
-GET https://wikinewsfeed.fly.dev/api/events
+GET https://wikinewsfeed.fly.dev/feed/json?subscribe=123
 
 ### WikiNewsFeed.org
 
