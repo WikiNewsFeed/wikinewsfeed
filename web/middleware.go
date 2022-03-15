@@ -14,7 +14,7 @@ import (
 
 func EventContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/api/") || strings.HasPrefix(r.URL.Path, "/feed/") {
+		if strings.HasPrefix(r.URL.Path, "/api/events") || strings.HasPrefix(r.URL.Path, "/feed/") {
 			var page = ""
 			if r.URL.Query().Has("page") {
 				page = "/" + r.URL.Query().Get("page")

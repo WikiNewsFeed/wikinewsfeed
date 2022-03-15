@@ -67,18 +67,7 @@ module.exports = {
     navbar: [
       {
         text: 'Subscribe',
-        children: [{
-          text: 'Atom',
-          link: 'https://wikinewsfeed.org/feed/atom',
-        },
-        {
-          text: 'RSS',
-          link: 'https://wikinewsfeed.org/feed/rss',
-        },
-        {
-          text: 'JSON',
-          link: 'https://wikinewsfeed.org/feed/json',
-        }]
+        link: '/index.md/#subscribe'
       },
       {
         text: 'Reference',

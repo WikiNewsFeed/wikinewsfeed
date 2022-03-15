@@ -16,7 +16,7 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 		Title:       "WikiNewsFeed",
 		Description: "News aggregator powered by Wikipedia",
 		Link: &feeds.Link{
-			Href: fmt.Sprintf("%s/feed/%s", envy.Get("WNF_URL", "http://localhost:8080"), feedType),
+			Href: envy.Get("WNF_URL", "http://localhost:8080"),
 		},
 		Author:    &feeds.Author{Name: "Wikipedia contributors"},
 		Copyright: "Creative Commons Attribution-ShareAlike License 3.0",
@@ -45,11 +45,13 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 	switch feedType {
 	case "atom":
 		generated, feedError = feed.ToAtom()
+		w.Header().Add("Content-Type", "application/atom+xml")
 	case "rss":
 		generated, feedError = feed.ToRss()
+		w.Header().Add("Content-Type", "application/rss+xml")
 	case "json":
 		generated, feedError = feed.ToJSON()
-		w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Content-Type", "application/feed+json")
 	}
 
 	if feedError != nil {
