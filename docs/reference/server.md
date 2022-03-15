@@ -14,9 +14,10 @@ Configuration is applied using Environment variables
 
 | Variable   | Type        | Default               | Description                                  |
 |------------|-------------|-----------------------|----------------------------------------------|
-| PORT       | string      | 8080                  | Listen to port                               |
-| WNF_URL    | string, URL | http://localhost:8080 | URL to be displayed in readers               |
-| WNF_MAXAGE | string      | 1800                  | Cache-Control age (only useful behind a CDN) |
+| PORT       | String      | 8080                  | Listen to port                               |
+| WNF_URL    | String, URL | http://localhost:8080 | URL to be displayed in readers               |
+| WNF_MAXAGE | String      | 1800                  | Cache-Control age (only useful behind a CDN) |
+| WNF_DB     | Path        | stats.db              | Path where database file should be saved     |
 
 ## Recommendations
 

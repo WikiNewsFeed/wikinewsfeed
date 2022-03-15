@@ -21,13 +21,13 @@ func Events(w http.ResponseWriter, r *http.Request) {
 }
 
 func Stats(w http.ResponseWriter, r *http.Request) {
-	generatedStats, err := stats.GetStats()
+	feedStats, err := stats.GetStats()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	parsed, err := json.Marshal(generatedStats)
+	parsed, err := json.Marshal(feedStats)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -5,6 +5,11 @@ app = "wikinewsfeed"
 
 [env]
   WNF_URL = "https://wikinewsfeed.org"
+  WNF_DB = "/stats.db"
+
+[mounts]
+  source="wikinewsfeed_stats"
+  destination="/"
 
 [[services]]
   internal_port = 8080

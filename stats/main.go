@@ -8,7 +8,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
-type GeneratedStats struct {
+type FeedStats struct {
 	SubscribersTotal int `json:"subscribers_total"`
 }
 
@@ -68,14 +68,14 @@ func IncrementHits(subscriberId string) {
 	}
 }
 
-func GetStats() (*GeneratedStats, error) {
+func GetStats() (*FeedStats, error) {
 	db, err := GetDb()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
 
-	var stats = GeneratedStats{}
+	var stats = FeedStats{}
 
 	readError := db.View(func(tx *bolt.Tx) error {
 		subscriptions := tx.Bucket([]byte("subscriptions"))

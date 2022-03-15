@@ -18,6 +18,7 @@
 |-----------------|---------|-------------------------------------|
 | page            | String  | Wikipedia Page                      |
 | includeOriginal | Boolean | Include unmodified text, body, date |
+| subscribe       | String  | Unique subscriber id                |
 
 #### Response
 
@@ -120,6 +121,52 @@ response = requests.get('https://wikinewsfeed.org/api/events')
     ],
     "date": "2022-03-11T00:00:00Z"
   }]
+```
+
+### Stats
+
+`GET` [https://wikinewsfeed.org/api/stats](https://wikinewsfeed.org/api/stats)
+
+#### Response
+
+[FeedStats](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/stats#FeedStats)
+
+#### Example Request
+
+<CodeGroup>
+  <CodeGroupItem title="cURL" active>
+
+```bash:no-line-numbers
+curl https://wikinewsfeed.org/api/stats
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="JavaScript">
+
+```js:no-line-numbers
+fetch('https://wikinewsfeed.org/api/stats')
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="NodeJS">
+
+```js:no-line-numbers
+const fetch = require('node-fetch')
+fetch('https://wikinewsfeed.org/api/stats')
+```
+  </CodeGroupItem>
+  <CodeGroupItem title="Python">
+
+```python:no-line-numbers
+import requests
+response = requests.get('https://wikinewsfeed.org/api/stats')
+```
+
+  </CodeGroupItem>
+</CodeGroup>
+
+```json
+{"subscribers_total":3}
 ```
 
 ## Limits

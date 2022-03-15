@@ -63,6 +63,7 @@ module.exports = {
   ],
   themeConfig: {
     repo: 'wikinewsfeed/wikinewsfeed',
+    docsDir: 'docs',
     darkMode: false,
     navbar: [
       {
@@ -92,6 +93,14 @@ module.exports = {
       '@vuepress/plugin-shiki',
       {
         theme: 'github-light',
+      }
+    ],
+    [
+      '@vuepress/register-components',
+      {
+        components: {
+          SubscribeLinks: path.resolve(__dirname, './components/SubscribeLinks.vue'),
+        }
       }
     ]
   ]

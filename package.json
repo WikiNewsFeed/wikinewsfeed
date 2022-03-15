@@ -10,7 +10,11 @@
   "author": "",
   "license": "GPL 3.0",
   "devDependencies": {
+    "@vuepress/plugin-register-components": "^2.0.0-beta.36",
     "@vuepress/plugin-shiki": "^2.0.0-beta.36",
     "vuepress": "^2.0.0-beta.36"
+  },
+  "dependencies": {
+    "nanoid": "^3.3.1"
   }
 }
