@@ -43,6 +43,7 @@ backend default {
 wnf_subscribers_total
 wnf_hits_total
 wnf_subscriber_hits_total
+wnf_subscriber_unique_hits_total
 ```
 
 ## Building

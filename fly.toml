@@ -13,7 +13,7 @@ app = "wikinewsfeed"
 
 [metrics]
   port = 8080
-  path = “/metrics”
+  path = "/metrics"
 
 [[services]]
   internal_port = 8080
