@@ -9,8 +9,8 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/client"
+	"github.com/wikinewsfeed/wikinewsfeed/metrics"
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
-	"github.com/wikinewsfeed/wikinewsfeed/stats"
 )
 
 func EventContext(next http.Handler) http.Handler {
@@ -91,8 +91,8 @@ func FeedAnalytics(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/feed/") {
 			subscriber := r.URL.Query().Get("subscribe")
-			go stats.SubscribeIfNotAlready(subscriber)
-			// go stats.IncrementHits(subscriber)
+			go metrics.SubscribeIfNotAlready(subscriber)
+			go metrics.IncrementHits(subscriber)
 		}
 
 		next.ServeHTTP(w, r)

@@ -123,51 +123,11 @@ response = requests.get('https://wikinewsfeed.org/api/events')
   }]
 ```
 
-### Stats
+### Metrics
 
-`GET` [https://wikinewsfeed.org/api/stats](https://wikinewsfeed.org/api/stats)
+`GET` [https://wikinewsfeed.org/metrics](https://wikinewsfeed.org/metrics)
 
-#### Response
-
-[FeedStats](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/stats#FeedStats)
-
-#### Example Request
-
-<CodeGroup>
-  <CodeGroupItem title="cURL" active>
-
-```bash:no-line-numbers
-curl https://wikinewsfeed.org/api/stats
-```
-
-  </CodeGroupItem>
-  <CodeGroupItem title="JavaScript">
-
-```js:no-line-numbers
-fetch('https://wikinewsfeed.org/api/stats')
-```
-
-  </CodeGroupItem>
-  <CodeGroupItem title="NodeJS">
-
-```js:no-line-numbers
-const fetch = require('node-fetch')
-fetch('https://wikinewsfeed.org/api/stats')
-```
-  </CodeGroupItem>
-  <CodeGroupItem title="Python">
-
-```python:no-line-numbers
-import requests
-response = requests.get('https://wikinewsfeed.org/api/stats')
-```
-
-  </CodeGroupItem>
-</CodeGroup>
-
-```json
-{"subscribers_total":3}
-```
+This endpoint exposes Prometheus Metrics, see [Monitoring](server.md#monitoring) for more
 
 ## Limits
 

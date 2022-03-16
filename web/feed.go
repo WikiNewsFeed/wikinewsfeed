@@ -30,7 +30,7 @@ func Feed(w http.ResponseWriter, r *http.Request) {
 		feed.Add(&feeds.Item{
 			Id:          event.Checksum,
 			Title:       event.PrimaryTopic.Title,
-			Link:        &feeds.Link{Href: event.PrimaryTopic.ExternalUrl},
+			Link:        &feeds.Link{Href: event.PrimarySource.Url},
 			Source:      &feeds.Link{Href: event.PrimarySource.Url},
 			Description: event.Text,
 			Content:     event.Html,

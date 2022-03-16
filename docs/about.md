@@ -1,5 +1,1 @@
 # About
-
-<ClientOnly>
-    <FeedStats />
-</ClientOnly>

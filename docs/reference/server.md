@@ -35,6 +35,16 @@ backend default {
 }
 ```
 
+## Monitoring
+
+`/metrics` exposes Prometheus metrics, following metrics are included
+
+```
+wnf_subscribers_total
+wnf_hits_total
+wnf_subscriber_hits_total
+```
+
 ## Building
 
 ### Docker
