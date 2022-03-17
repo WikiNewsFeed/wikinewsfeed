@@ -3,8 +3,8 @@ package parser
 import (
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 	"io"
-	"net/url"
 	"regexp"
 	"time"
 
@@ -26,6 +26,7 @@ type Event struct {
 	OriginalDate  string        `json:"date_original,omitempty"`
 	Checksum      string        `json:"checksum"`
 	Page          string        `json:"page"`
+	Contributors  string        `json:"contributors"`
 }
 
 type EventPage struct {
@@ -35,9 +36,8 @@ type EventPage struct {
 }
 
 type EventSource struct {
-	Name   string `json:"name"`
-	Url    string `json:"url"`
-	Domain string `json:"domain"`
+	Name string `json:"name"`
+	Url  string `json:"url"`
 }
 
 type ParserOptions struct {
@@ -82,6 +82,8 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 		}
 		text := event.Text()
 		page, _ := event.Parents().Find(".vevent").Attr("id")
+		wikiPage := "https://en.wikipedia.org/wiki/Portal:Current_events/" + page
+		contributors := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=query&titles=Portal:Current_events/%s&prop=contributors&format=json", page)
 
 		var sources []EventSource
 		sourcesNodes := event.Find("a.external")
@@ -96,15 +98,10 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 			}
 
 			sourceUrl, _ := source.Attr("href")
-			parsedUrl, err := url.Parse(sourceUrl)
-			if err != nil {
-				return nil, err
-			}
 
 			sources = append(sources, EventSource{
-				Name:   sourceName,
-				Url:    sourceUrl,
-				Domain: parsedUrl.Hostname(),
+				Name: sourceName,
+				Url:  sourceUrl,
 			})
 		}
 
@@ -161,7 +158,8 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 			References:    references,
 			Date:          dateFormatted,
 			Checksum:      calculateChecksum(textStripped),
-			Page:          "https://en.wikipedia.org/wiki/Portal:Current_events/" + page,
+			Page:          wikiPage,
+			Contributors:  contributors,
 		}
 
 		// Include original content?
