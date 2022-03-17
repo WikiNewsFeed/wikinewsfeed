@@ -26,7 +26,9 @@ import (
 
 func main() {
     wiki, _ := http.Get("https://en.wikipedia.org/wiki/Portal:Current_events")
-    events, err := parser.Parse(wiki.Body, false)
+    events, err := parser.Parse(wiki.Body, parser.ParserOptions{
+		IncludeOriginal: options.IncludeOriginal,
+	})
     if err != nil {
         panic(err)
     }

@@ -7,18 +7,12 @@ import (
 	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
-// type WikiSubscribeOptions struct {
-// 	Period string
-// 	Call   SubscribeFunc
-// }
-
 type WikiClientOptions struct {
 	MaxAge          time.Duration
 	IncludeOriginal bool
 }
 
-type SubscribeFunc func([]parser.Event)
-type SubscribeEachFunc func(parser.Event)
+type SubscribeFunc func(parser.Event)
 
 func Get(page string, options WikiClientOptions) ([]parser.Event, error) {
 	wikiPage, err := GetEventsPage(page, WikiRequestOptions{
@@ -40,35 +34,32 @@ func Get(page string, options WikiClientOptions) ([]parser.Event, error) {
 }
 
 func Subscribe(call SubscribeFunc, frequency time.Duration) error {
-	var lastDelta = 0
+	lastHashes := make(map[string]parser.Event)
 	for {
-		freshEvents, err := Get("", WikiClientOptions{
+		events, err := Get("", WikiClientOptions{
 			MaxAge:          frequency,
 			IncludeOriginal: false,
 		})
+
+		// Fill the hash map when just subscribed
+		if len(lastHashes) == 0 {
+			for _, event := range events {
+				lastHashes[event.Checksum] = event
+			}
+		}
+
+		for _, event := range events {
+			_, present := lastHashes[event.Checksum]
+			if !present {
+				lastHashes[event.Checksum] = event
+				call(event)
+			}
+		}
+
 		if err != nil {
 			return err
 		}
 
-		// Reset delta if after initial subscription
-		if lastDelta == 0 {
-			lastDelta = len(freshEvents)
-		}
-
-		if len(freshEvents) > lastDelta {
-			delta := len(freshEvents) - lastDelta
-			call(freshEvents[:delta])
-		}
-
-		lastDelta = len(freshEvents)
 		time.Sleep(frequency)
 	}
-}
-
-func SubscribeEach(call SubscribeEachFunc, frequency time.Duration) error {
-	return Subscribe(func(events []parser.Event) {
-		for _, event := range events {
-			call(event)
-		}
-	}, frequency)
 }
