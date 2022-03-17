@@ -16,7 +16,6 @@
 
 | Param           | Type    | Description                         |
 |-----------------|---------|-------------------------------------|
-| page            | String  | Wikipedia Page                      |
 | subscribe       | String  | Unique subscriber id                |
 
 #### Response
@@ -93,7 +92,6 @@ response = requests.get('https://wikinewsfeed.org/feed/atom')
 
 | Param           | Type    | Description                         |
 |-----------------|---------|-------------------------------------|
-| page            | String  | Wikipedia Page                      |
 | includeOriginal | Boolean | Include unmodified text, body, date |
 
 #### Response

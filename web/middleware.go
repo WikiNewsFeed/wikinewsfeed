@@ -17,18 +17,13 @@ import (
 func EventContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/api/events" || strings.HasPrefix(r.URL.Path, "/feed/") {
-			var page = ""
-			if r.URL.Query().Has("page") {
-				page = "/" + r.URL.Query().Get("page")
-			}
-
 			var includeOriginal = false
 			if r.URL.Query().Has("includeOriginal") {
 				includeOriginal = true
 			}
 
 			convertedMaxAge, _ := strconv.ParseFloat(envy.Get("WNF_MAXAGE", "1800"), 32)
-			events, err := client.Get(page, client.WikiClientOptions{
+			events, err := client.Get("", client.WikiClientOptions{
 				MaxAge:          time.Duration(convertedMaxAge) * time.Second,
 				IncludeOriginal: includeOriginal,
 			})
