@@ -39,10 +39,10 @@ func Get(page string, options WikiClientOptions) ([]parser.Event, error) {
 	return events, nil
 }
 
-func Subscribe(page string, call SubscribeFunc, frequency time.Duration) error {
+func Subscribe(call SubscribeFunc, frequency time.Duration) error {
 	var lastDelta = 0
 	for {
-		freshEvents, err := Get(page, WikiClientOptions{
+		freshEvents, err := Get("", WikiClientOptions{
 			MaxAge:          frequency,
 			IncludeOriginal: false,
 		})
@@ -65,8 +65,8 @@ func Subscribe(page string, call SubscribeFunc, frequency time.Duration) error {
 	}
 }
 
-func SubscribeEach(page string, call SubscribeEachFunc, frequency time.Duration) error {
-	return Subscribe(page, func(events []parser.Event) {
+func SubscribeEach(call SubscribeEachFunc, frequency time.Duration) error {
+	return Subscribe(func(events []parser.Event) {
 		for _, event := range events {
 			call(event)
 		}

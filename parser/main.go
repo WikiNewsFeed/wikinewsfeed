@@ -25,6 +25,7 @@ type Event struct {
 	Date          time.Time     `json:"date"`
 	OriginalDate  string        `json:"date_original,omitempty"`
 	Checksum      string        `json:"checksum"`
+	Page          string        `json:"page"`
 }
 
 type EventPage struct {
@@ -80,9 +81,10 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 			return nil, err
 		}
 		text := event.Text()
+		page, _ := event.Parents().Find(".vevent").Attr("id")
 
-		sourcesNodes := event.Find("a.external")
 		var sources []EventSource
+		sourcesNodes := event.Find("a.external")
 		for _, sourceNode := range sourcesNodes.Nodes {
 			source := goquery.NewDocumentFromNode(sourceNode)
 			sourceName := source.Text()
@@ -106,8 +108,8 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 			})
 		}
 
-		referencesNodes := event.Find("a:not(.external)")
 		var references []EventPage
+		referencesNodes := event.Find("a:not(.external)")
 		for _, referenceNode := range referencesNodes.Nodes {
 			reference := goquery.NewDocumentFromNode(referenceNode)
 			referenceTitle := reference.Text()
@@ -159,6 +161,7 @@ func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 			References:    references,
 			Date:          dateFormatted,
 			Checksum:      calculateChecksum(textStripped),
+			Page:          "https://en.wikipedia.org/wiki/Portal:Current_events/" + page,
 		}
 
 		// Include original content?

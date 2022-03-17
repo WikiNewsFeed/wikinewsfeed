@@ -1,3 +1,7 @@
+::: tip
+Feed and API content is licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+:::
+
 # API
 
 ## Endpoints
@@ -17,12 +21,73 @@
 | Param           | Type    | Description                         |
 |-----------------|---------|-------------------------------------|
 | page            | String  | Wikipedia Page                      |
-| includeOriginal | Boolean | Include unmodified text, body, date |
 | subscribe       | String  | Unique subscriber id                |
 
 #### Response
 
 The endpoints responds with XML or JSON with correct headers for each feed type
+
+::: details Example
+
+<CodeGroup>
+  <CodeGroupItem title="cURL" active>
+
+```bash:no-line-numbers
+curl https://wikinewsfeed.org/feed/atom
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="JavaScript">
+
+```js:no-line-numbers
+fetch('https://wikinewsfeed.org/feed/atom')
+```
+
+  </CodeGroupItem>
+  <CodeGroupItem title="NodeJS">
+
+```js:no-line-numbers
+const fetch = require('node-fetch')
+fetch('https://wikinewsfeed.org/feed/atom')
+```
+  </CodeGroupItem>
+  <CodeGroupItem title="Python">
+
+```python:no-line-numbers
+import requests
+response = requests.get('https://wikinewsfeed.org/feed/atom')
+```
+
+  </CodeGroupItem>
+</CodeGroup>
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<feed
+  xmlns="http://www.w3.org/2005/Atom">
+  <title>WikiNewsFeed</title>
+  <id>http://localhost:8080</id>
+  <updated></updated>
+  <rights>Creative Commons Attribution-ShareAlike License 3.0</rights>
+  <subtitle>News aggregator powered by Wikipedia</subtitle>
+  <link href="http://localhost:8080"></link>
+  <author>
+    <name>Wikipedia contributors</name>
+  </author>
+  <entry>
+    <title>COVID-19 pandemic in South Korea</title>
+    <updated>2022-03-17T00:00:00Z</updated>
+    <id>9e461cd86e3bf9635acea12388cfe9db1fe6283e</id>
+    <content type="html">&lt;a href=&#34;https://en.wikipedia.org/wiki/South_Korea&#34; title=&#34;South Korea&#34;&gt;South Korea&lt;/a&gt; reports 621,328 new &lt;a href=&#34;https://en.wikipedia.org/wiki/COVID-19&#34; title=&#34;COVID-19&#34;&gt;COVID-19&lt;/a&gt; cases, a new single day record. </content>
+    <link href="https://en.wikipedia.org/wiki/Portal:Current_events/2022_March_17" rel="alternate"></link>
+    <summary type="html">South Korea reports 621,328 new COVID-19 cases, a new single day record. </summary>
+    <author>
+      <name>Wikipedia contributors</name>
+    </author>
+  </entry>
+</feed>
+```
+:::
 
 ### Events
 
@@ -37,9 +102,9 @@ The endpoints responds with XML or JSON with correct headers for each feed type
 
 #### Response
 
-Array of [Event](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/parser#Event)
+[EventResponse](https://pkg.go.dev/github.com/wikinewsfeed/wikinewsfeed/web#EventsResponse)
 
-#### Example Request
+::: details Example
 
 <CodeGroup>
   <CodeGroupItem title="cURL" active>
@@ -122,6 +187,7 @@ response = requests.get('https://wikinewsfeed.org/api/events')
     "date": "2022-03-11T00:00:00Z"
   }]
 ```
+:::
 
 ### Metrics
 
