@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type WikiResponse struct {
@@ -19,8 +20,15 @@ type WikiResponseError struct {
 	Info string
 }
 
-func GetEventsPage(title string, smaxage string) (*WikiResponse, error) {
-	apiUrl := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=%s&page=Portal:Current_events%s&prop=text", smaxage, title)
+type WikiRequestOptions struct {
+	MaxAge          time.Duration
+	IncludeOriginal bool
+}
+
+var requestUrl = "https://en.wikipedia.org/w/api.php?action=parse&format=json&smaxage=%v&page=Portal:Current_events%s&prop=text"
+
+func GetEventsPage(page string, options WikiRequestOptions) (*WikiResponse, error) {
+	apiUrl := fmt.Sprintf(requestUrl, options.MaxAge.Seconds(), page)
 	apiResponse, err := http.Get(apiUrl)
 	if err != nil {
 		return nil, err
@@ -28,17 +36,17 @@ func GetEventsPage(title string, smaxage string) (*WikiResponse, error) {
 
 	defer apiResponse.Body.Close()
 
-	var page WikiResponse
-	decodeError := json.NewDecoder(apiResponse.Body).Decode(&page)
+	var wikiPage WikiResponse
+	decodeError := json.NewDecoder(apiResponse.Body).Decode(&wikiPage)
 	if decodeError != nil {
 		return nil, decodeError
 	}
 
 	// Check if Wikipedia API's response error isn't empty
 	var emptyError = WikiResponseError{}
-	if page.Error != emptyError {
-		return nil, errors.New(page.Error.Info)
+	if wikiPage.Error != emptyError {
+		return nil, errors.New(wikiPage.Error.Info)
 	}
 
-	return &page, nil
+	return &wikiPage, nil
 }

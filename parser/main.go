@@ -39,6 +39,10 @@ type EventSource struct {
 	Domain string `json:"domain"`
 }
 
+type ParserOptions struct {
+	IncludeOriginal bool
+}
+
 func getPrimaryTopic(topics []EventPage) EventPage {
 	if len(topics) > 0 {
 		return topics[0]
@@ -61,7 +65,7 @@ func calculateChecksum(text string) string {
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
-func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
+func Parse(content io.Reader, options ParserOptions) ([]Event, error) {
 	doc, err := goquery.NewDocumentFromReader(content)
 	if err != nil {
 		return nil, err
@@ -158,7 +162,7 @@ func Parse(content io.Reader, includeOriginal bool) ([]Event, error) {
 		}
 
 		// Include original content?
-		if includeOriginal {
+		if options.IncludeOriginal {
 			parsedEvent.OriginalHtml = html
 			parsedEvent.OriginalText = text
 			parsedEvent.OriginalDate = date

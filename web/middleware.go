@@ -4,13 +4,14 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gobuffalo/envy"
 	"github.com/gorilla/mux"
 	"github.com/wikinewsfeed/wikinewsfeed/client"
 	"github.com/wikinewsfeed/wikinewsfeed/metrics"
-	"github.com/wikinewsfeed/wikinewsfeed/parser"
 )
 
 func EventContext(next http.Handler) http.Handler {
@@ -26,16 +27,13 @@ func EventContext(next http.Handler) http.Handler {
 				includeOriginal = true
 			}
 
-			wikiPage, err := client.GetEventsPage(page, envy.Get("WNF_MAXAGE", "1800"))
+			convertedMaxAge, _ := strconv.ParseFloat(envy.Get("WNF_MAXAGE", "1800"), 32)
+			events, err := client.Get(page, client.WikiClientOptions{
+				MaxAge:          time.Duration(convertedMaxAge) * time.Second,
+				IncludeOriginal: includeOriginal,
+			})
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
-
-			parsedContent := strings.NewReader(wikiPage.Parse.Text["*"].(string))
-			events, err := parser.Parse(parsedContent, includeOriginal)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
