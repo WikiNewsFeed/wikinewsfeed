@@ -4,8 +4,12 @@ github.com/andybalholm/cascadia v1.3.1 h1:nhxRkql1kdYCc8Snf7D5/D3spOX+dBgjA6u8x0
 github.com/andybalholm/cascadia v1.3.1/go.mod h1:R4bJ1UQfqADjvDa4P6HZHLh/3OxWWEqc0Sk8XGwHqvA=
 github.com/wikinewsfeed/wikinewsfeed/parser v0.0.0-20220316230057-150dc7e48c29 h1:AhXBljwonj677VsvR7u6ozvQrDhWEZWCbfK83PtmygQ=
 github.com/wikinewsfeed/wikinewsfeed/parser v0.0.0-20220316230057-150dc7e48c29/go.mod h1:SW8ErDoG2YjELZehQAcXHLQrSSFMSm69SkgdcpCRa/k=
+github.com/wikinewsfeed/wikinewsfeed/parser v0.0.0-20220317213711-4b1d1315140c h1:PUug9TS0EsBO4JIF40V8T+uTZ01J38YVPojaCWh18Vg=
+github.com/wikinewsfeed/wikinewsfeed/parser v0.0.0-20220317213711-4b1d1315140c/go.mod h1:SW8ErDoG2YjELZehQAcXHLQrSSFMSm69SkgdcpCRa/k=
 golang.org/x/net v0.0.0-20210916014120-12bc252f5db8 h1:/6y1LfuqNuQdHAm0jjtPtgRcxIxjVZgm5OTu8/QhZvk=
 golang.org/x/net v0.0.0-20210916014120-12bc252f5db8/go.mod h1:9nx3DQGgdP8bBQD5qxJ1jj9UTztislL4KSBs9R2vV5Y=
+golang.org/x/net v0.0.0-20220225172249-27dd8689420f h1:oA4XRj0qtSt8Yo1Zms0CUlsT3KG69V2UGQWPBxujDmc=
+golang.org/x/net v0.0.0-20220225172249-27dd8689420f/go.mod h1:CfG3xpIq0wQ8r1q4Su4UZFWDARRcnwPjda9FqA0JpMk=
 golang.org/x/sys v0.0.0-20201119102817-f84b799fce68/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20210423082822-04245dca01da/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=
