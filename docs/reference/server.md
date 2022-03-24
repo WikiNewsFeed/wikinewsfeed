@@ -48,24 +48,24 @@ wnf_subscriber_unique_hits_total
 
 ## Building
 
-### Docker
-
-```sh:no-line-numbers
-docker build -t wikinewsfeed/wikinewsfeed .
-```
-
-### From source
-
-- [Go](https://go.dev/dl/) v1.16 and greater
-- [NodeJS](https://nodejs.org/en/) optionally if you want to build the docs
-
-#### 1. Clone the repository
+Clone the repository
 
 ```sh:no-line-numbers
 git clone https://github.com/WikiNewsFeed/wikinewsfeed.git
 ```
 
-#### 2. Build the binary
+### Build using Docker
+
+```sh:no-line-numbers
+docker build -t wikinewsfeed/wikinewsfeed .
+```
+
+### Build from source
+
+- [Go](https://go.dev/dl/) v1.16 and greater
+- [NodeJS](https://nodejs.org/en/) optionally if you want to build the docs
+
+#### 1. Build the binary
 
 Install the dependencies
 
@@ -79,7 +79,7 @@ Build
 go build
 ```
 
-#### 3. Build the docs
+#### 2. Build the docs
 
 Install the dependencies
 
