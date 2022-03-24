@@ -26,9 +26,9 @@ import (
 
 func main() {
     events, err := client.Get("", client.WikiClientOptions{
-				MaxAge:          time.Duration(convertedMaxAge) * time.Second,
-				IncludeOriginal: includeOriginal,
-		})
+        MaxAge:          1800 * time.Second,
+        IncludeOriginal: includeOriginal,
+    })
 
     if err != nil {
         panic(err)
@@ -52,15 +52,15 @@ package main
 import (
     "net/http"
     "fmt"
-		"time"
+	"time"
 
     "github.com/wikinewsfeed/wikinewsfeed/client"
 )
 
 func main() {
     events, err := client.Subscribe(func(event parser.Event) {
-				fmt.Println(event)
-		})
+	        fmt.Println(event)
+	})
 
     if err != nil {
         panic(err)
